@@ -1,0 +1,17 @@
+{% extends "user_local_news/base_new.html" %}
+{% block content %}
+    {% if all_news.count < 1 %}
+        <h3 class="text-muted mt-2">No Local News Available</h3>
+    {% else %}
+        {% for news in all_news %}
+            <article class="media content-section">
+                <img class="news-icon" src="{{ news.image_url }}" alt="admin-img">
+                <div>
+                    <h4 class="ml-3"><a class="article-title" href="{% url 'local-news-detail' news.id %}">{{ news.title }}</a></h4>
+                    <h5 class="ml-3">Region : {{ news.country_name }}</h5>
+                    <h5 class="ml-3">Contributed by : {{ news.name }}</h5>
+                </div>
+            </article>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}

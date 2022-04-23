@@ -1,0 +1,21 @@
+{% extends "user_local_news/base_new.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Local News Form</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Submit Form</button>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Got no local news ? <a class="ml-2" href="{% url 'local-home' %}">Go back to local news home page</a>
+            </small>
+        </div>
+    </div>
+{% endblock content %}

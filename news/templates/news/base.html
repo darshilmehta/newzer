@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Newzer</title>
+    <style>
+        .body{
+            -webkit-user-select: none;  /* Chrome all / Safari all */
+            -moz-user-select: none;     /* Firefox all */
+            -ms-user-select: none;      /* IE 10+ */
+            user-select: none;          /* Likely future */      
+        }
+        .content-section {
+            background: #ffffff;
+            padding: 10px 20px;
+            border: 1px solid #dddddd;
+            border-radius: 3px;
+            margin-bottom: 20px;
+        } 
+        .article-title {
+            color: #444444;
+        }
+        a.article-title:hover {
+            color: #428bca;
+            text-decoration: none;
+        }
+        .article-content {
+            white-space: pre-line;
+        }
+        .article-img {
+            height: 65px;
+            width: 65px;
+            margin-right: 16px;
+        }
+        .article-metadata {
+            padding-bottom: 1px;
+            margin-bottom: 4px;
+            border-bottom: 1px solid #e3e3e3
+        } 
+        .article-metadata a:hover {
+            color: #333;
+            text-decoration: none;
+        }
+        .article-svg {
+            width: 25px;
+            height: 25px;
+            vertical-align: middle;
+        } 
+        .account-img {
+            height: 125px;
+            width: 125px;
+            margin-right: 20px;
+            margin-bottom: 16px;
+        } 
+        .account-heading {
+            font-size: 2.5rem;
+        }
+        .news-icon {
+            height: 200px;
+            width: 200px;
+        }
+        .news-detail {
+            height: 600px;
+            width: 600px;
+        }
+        .logout {
+            text-decoration : None;
+            color : white !important;
+            background-color : red;
+            border-radius : 10px;
+            border : 1px solid transparent;
+            width: 100px;
+            text-align: center;
+        }
+        .logout:hover {
+            border : 1px solid white;
+        }
+        .active__hover:hover {
+            border : 1px solid white;
+            border-radius : 5px;
+        }
+        .nav-link {
+            border : 1px solid transparent;
+        }
+        .time {
+            color : white;
+            line-height : 40px;
+        }
+
+        #loader {
+          border: 12px solid #f3f3f3;
+          border-radius: 50%;
+          border-top: 12px solid #444444;
+          width: 70px;
+          height: 70px;
+          animation: spin 1s linear infinite;
+      } 
+      @keyframes spin {
+          100% {
+              transform: rotate(360deg);
+          }
+      }
+      .center {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
+      }
+    </style>
+</head>
+<body>
+    <div id="loader" class="center"></div>
+    <!-- NavBar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <a class="navbar-brand mr-3" href="{% url 'home' %}">Newzer - Global</a>
+              <li class="nav-item">
+                <a class="nav-link  mx-2  active__hover" href="{% url 'india' %}">India</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link  mx-2  active__hover" href="{% url 'usa' %}">USA</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link  mx-2  active__hover" href="{% url 'australia' %}">Australia</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link  mx-2  active__hover" href="{% url 'russia' %}">Russia</a>
+              </li>  
+              <li class="nav-item">
+                    <a class="nav-link  mx-2  active__hover" href="{% url 'about' %}">About</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav">
+              {% if user.is_authenticated %}
+              <form class="form-inline my-2 my-lg-0 mr-2" method="POST" action="{% url 'search-news' %}">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" style="width: 500px;" type="search" placeholder="Search News..." aria-label="Search" name="searched">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+              <div class="mr-3 time">{{date}}, {{day}} {{time}}</div>
+              <li class="nav-item my-auto">
+                <a class="logout nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+              {% else %}
+              <div class="mr-3 time">{{date}}, {{day}} {{time}}</div>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">Register</a>
+              </li>
+              {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main role="main" class="container mt-3">
+      <div class="row">
+        <div class="col-md-8">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+          {% block content %}
+          {% endblock %}
+        </div>
+        <div class="col-md-4">
+          <div class="content-section">
+            <h2 class="text-center">Local News</h2>
+            <p class="text-center text-muted mt-2">
+              Newzer gets the global news from highly reliable and trusted sources. However, it becomes difficult to get authenticated news from local news publishers. Avoiding fake news and provide reliable news has been our goal from the start. Hence, we are proiding a platform to our users to upload their local news, which is authenticated by us and published in our local news section. This helps our users to get the taste of both global and local regional news.
+            </p>
+            <button type="button" class="btn btn-primary mb-3" style="width: 100%">
+              <a href="{% url 'local-home' %}" style="color: white; text-decoration: none">Read Local news</a>
+            </button>
+
+            <h2 class="text-center">Live Stock Prices</h2>
+            <p class="text-center text-muted mt-2">
+              Checkout live trending stock prices on our website
+            </p>
+            <button type="button" class="btn btn-primary mb-3" style="width: 100%">
+              <a href="{% url 'all-stocks' %}" style="color: white; text-decoration: none">Live Stock Prices</a>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>
+      document.onreadystatechange = function() {
+          if (document.readyState !== "complete") {
+              document.querySelector(
+                "body").style.visibility = "hidden";
+              document.querySelector(
+                "#loader").style.visibility = "visible";
+          } else {
+              document.querySelector(
+                "#loader").style.display = "none";
+              document.querySelector(
+                "body").style.visibility = "visible";
+          }
+      };
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

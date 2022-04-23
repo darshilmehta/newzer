@@ -1,0 +1,15 @@
+{% extends "news/base.html" %}
+{% block content %}
+{% load custom_tags %}
+    <div class="mb-5">
+        <h1>{{ object.title }}</h1>
+        {% if object.authors %}
+            <p class="my-3">Authors : {{ object.authors | authorlist_to_string }}</p>
+        {% endif %}
+        <div class="text-center">
+            <img src="{{ object.image_url }}" class="rounded img-fluid" alt="{{ object.title }}">
+        </div>
+        <p class="mt-3">{{ object.summary }}</p>
+        <h5>Read more (<a href={{ object.post_url }} target="/blank" style="text-decoration:None;">{{ object.newspaper_name }}</a>)</h5>
+    </div>
+{% endblock content %}

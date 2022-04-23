@@ -1,0 +1,44 @@
+{% extends "stockprice_live/base_stock.html" %}
+{% block content %}
+    {% for stock in data %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <div style="display: flex; flex-direction: row">
+                    <img 
+                        src={{ stock.logo_url }}
+                        style="height: 100px; width: 100px; border: 1px solid #000;"
+                        alt={{ stock.stock_name }}
+                    />
+                    <div style="display: flex; flex-direction: column" class="ml-3">
+                        <div style="display: flex; flex-direction: row">
+                            <p style="font-size: 20px; font-weight: 800" class="py-2 m-0">{{ stock.stock_name }}</p>
+                            <div class="ml-3">
+                                {% if stock.difference < 0 %}
+                                    <p style="font-size: 15px; font-weight: 700; color: red" class="text-center pt-3 pb-2 m-0">&darr; {{ stock.percentage_change }} % ({{ stock.difference }} {{ stock.currency }}) </p>
+                                {% elif stock.difference > 0 %}
+                                    <p style="font-size: 15px; font-weight: 700; color: green" class="text-center pt-3 pb-2 m-0">&uarr; {{ stock.percentage_change }} % ({{ stock.difference }} {{ stock.currency }}) </p>
+                                {% else %}
+                                    <p style="font-size: 15px; font-weight: 700; color: #555" class="text-center pt-3 pb-2 m-0">{{ stock.percentage_change }} % ({{ stock.difference }} {{ stock.currency }}) </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <p style="font-size: 15px; font-weight: 600" class="text-muted p-0 m-0">({{ stock.ticker_name }})</p>
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: row" class="pt-4 pb-2">
+                    <p style="font-size: 15px; font-weight: 600; width:50%" class="text-muted p-0 m-0">Current Market Price : {{ stock.current_market_price }} {{ stock.currency }}</p>
+                    <p style="font-size: 15px; font-weight: 600; width:50%" class="text-muted p-0 m-0">Previous Close Price : {{ stock.previous_close_price }} {{ stock.currency }}</p>
+
+                </div>
+                <div style="display: flex; flex-direction: row" class="pt-2 pb-2">
+                    <p style="font-size: 15px; font-weight: 600; width:50%" class="text-muted p-0 m-0">Days High : {{ stock.current_day_high }} {{ stock.currency }}</p>
+                    <p style="font-size: 15px; font-weight: 600; width:50%" class="text-muted p-0 m-0">Days Low : {{ stock.current_day_low }} {{ stock.currency }}</p>
+                </div>
+                <div style="display: flex; flex-direction: row" class="pt-2 pb-2">
+                    <p style="font-size: 15px; font-weight: 600; width:50%" class="text-muted p-0 m-0">52 weeks High : {{ stock.last_one_year_high }} {{ stock.currency }}</p>
+                    <p style="font-size: 15px; font-weight: 600; width:50%" class="text-muted p-0 m-0">52 weeks Low : {{ stock.last_one_year_low }} {{ stock.currency }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}
