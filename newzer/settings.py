@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'q5f-**(*g=cmfi&^cor2a%*gsr^eix=nx06$07xrjbzb_!tbkw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -70,11 +70,11 @@ WSGI_APPLICATION = 'newzer.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'news_miniproject',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'debf6r7hnnqlc7',
+        'USER': 'cbcvyklxjzzqhn',
+        'PASSWORD': '47aa33451df5ab4e61e8d1da593fdd76111df1be616f2b6e5f7073f575653096',
+        'HOST': 'ec2-44-206-89-185.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }

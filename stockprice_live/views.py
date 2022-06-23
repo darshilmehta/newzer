@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from torch import double
 import yfinance as yf
 
 @login_required
